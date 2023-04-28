@@ -89,7 +89,12 @@ namespace PubSubPub.Core
 			Messenger.Default.Unsubscribe<CustomerDrinkSaleInitiatedMessage>(ChangeDrink);
 		}
 
-		public void TryDrinkDrink()
+		private void Update()
+		{
+			TryDrinkDrink();
+		}
+
+		private void TryDrinkDrink()
 		{
 			if(_drink == null)
 			{

@@ -64,7 +64,6 @@ namespace PubSubPub.Core
 		private void Update()
 		{
 			InstantiateCustomers();
-			HaveCustomersDrink();
 		}
 
 		private void InstantiateCustomers()
@@ -76,14 +75,6 @@ namespace PubSubPub.Core
 			{
 				InstantiateCustomer();
 				_customerSpawnTimer -= _spawnRate;
-			}
-		}
-
-		private void HaveCustomersDrink()
-		{
-			foreach(var customer in _customers)
-			{
-				customer.TryDrinkDrink();
 			}
 		}
 
