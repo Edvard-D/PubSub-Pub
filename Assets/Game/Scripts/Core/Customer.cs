@@ -160,7 +160,7 @@ namespace PubSubPub.Core
 
 		private void ChangeDrink(CustomerDrinkSaleInitiatedMessage message)
 		{
-			if(_drink != null)
+			if(_drink != null || _money < message.DrinkSettings.Price)
 			{
 				return;
 			}
