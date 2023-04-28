@@ -29,9 +29,6 @@ namespace PubSubPub.Core
 
 		[SerializeField]
 		[HideInInspector]
-		private List<Customer> _customers;
-		[SerializeField]
-		[HideInInspector]
 		private float _customerSpawnTimer;
 		[SerializeField]
 		[HideInInspector]
@@ -52,13 +49,11 @@ namespace PubSubPub.Core
 		private void OnEnable()
 		{
 			Messenger.Default.Subscribe<CustomerDrinkSoldMessage>(OnCustomerDrinkSoldMessage);
-			Messenger.Default.Subscribe<CustomerRemovalInitiatedMessage>(OnCustomerRemovalInitiatedMessage);
 		}
 
 		private void OnDisable()
 		{
 			Messenger.Default.Unsubscribe<CustomerDrinkSoldMessage>(OnCustomerDrinkSoldMessage);
-			Messenger.Default.Unsubscribe<CustomerRemovalInitiatedMessage>(OnCustomerRemovalInitiatedMessage);
 		}
 
 		private void Update()
@@ -89,8 +84,6 @@ namespace PubSubPub.Core
 			var drunkenness = (float)_random.NextDouble() * _startingDrunkenessMax;
 			customer.Initialize(money, drinkPreferenceWeights, drinkSpeed, drunkenness);
 
-			_customers.Add(customer);
-
 			Messenger.Default.Publish(new CustomerInstantiatedMessage(customer));
 		}
 
@@ -109,13 +102,6 @@ namespace PubSubPub.Core
 		private void OnCustomerDrinkSoldMessage(CustomerDrinkSoldMessage message)
 		{
 			_money += message.Drink.Settings.Price;
-		}
-
-		private void OnCustomerRemovalInitiatedMessage(CustomerRemovalInitiatedMessage message)
-		{
-			_customers.Remove(message.Customer);
-			Messenger.Default.Publish(new CustomerRemovedMessage(message.Customer));
-			Destroy(message.Customer.gameObject);
 		}
 	}
 }

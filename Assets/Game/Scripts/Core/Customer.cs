@@ -82,6 +82,8 @@ namespace PubSubPub.Core
 		{
 			Messenger.Default.Subscribe<CustomerDrinkSaleInitiatedMessage>(ChangeDrink,
 					(CustomerDrinkSaleInitiatedMessage message) => message.Customer == this);
+			Messenger.Default.Subscribe<CustomerRemovalInitiatedMessage>(OnCustomerRemovalInitiatedMessage,
+					(CustomerRemovalInitiatedMessage message) => message.Customer == this);
 			Messenger.Default.Subscribe<DrinkFillAmountChangedMessage>(OnDrinkFillAmountChangedMessage,
 					(DrinkFillAmountChangedMessage message) => message.Drink == _drink);
 		}
@@ -89,6 +91,7 @@ namespace PubSubPub.Core
 		private void OnDisable()
 		{
 			Messenger.Default.Unsubscribe<CustomerDrinkSaleInitiatedMessage>(ChangeDrink);
+			Messenger.Default.Unsubscribe<CustomerRemovalInitiatedMessage>(OnCustomerRemovalInitiatedMessage);
 			Messenger.Default.Unsubscribe<DrinkFillAmountChangedMessage>(OnDrinkFillAmountChangedMessage);
 		}
 
@@ -165,6 +168,12 @@ namespace PubSubPub.Core
 			_drink = new Drink(message.DrinkSettings);
 			_money -= message.DrinkSettings.Price;
 			Messenger.Default.Publish(new CustomerDrinkSoldMessage(this, _drink));
+		}
+
+		private void OnCustomerRemovalInitiatedMessage(CustomerRemovalInitiatedMessage message)
+		{
+			Messenger.Default.Publish(new CustomerRemovedMessage(message.Customer));
+			Destroy(this.gameObject);
 		}
 	}
 }
