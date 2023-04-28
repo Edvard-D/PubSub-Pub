@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace PubSubPub.Core
 {
-	public class BarManager : MonoBehaviour
+	public class PubManager : MonoBehaviour
 	{
 		[SerializeField]
 		private string _drinkSettingsFolderPath;
