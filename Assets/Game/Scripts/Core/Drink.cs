@@ -8,20 +8,14 @@ namespace PubSubPub.Core
 	{
 		[SerializeField]
 		[HideInInspector]
-		private Customer _customer;
-		[SerializeField]
-		[HideInInspector]
 		private float _fillAmount;
 		[SerializeField]
 		[HideInInspector]
 		private DrinkSettings _settings;
 
 
-		public Drink(
-				Customer customer,
-				DrinkSettings settings)
+		public Drink(DrinkSettings settings)
 		{
-			_customer = customer;
 			_fillAmount = 1f;
 			_settings = settings;
 		}
@@ -40,7 +34,7 @@ namespace PubSubPub.Core
 
 				_fillAmount = value;
 
-				Messenger.Default.Publish(new DrinkFillAmountChangedMessage(_customer, this, _fillAmount));
+				Messenger.Default.Publish(new DrinkFillAmountChangedMessage(this, _fillAmount));
 			}
 		}
 		public DrinkSettings Settings { get { return _settings; } }
@@ -48,6 +42,13 @@ namespace PubSubPub.Core
 
 		public void DrinkDrink(float amount)
 		{
+			if(amount < 0f)
+			{
+				Debug.LogError("Argument " + nameof(amount) + " cannot be less than zero.");
+
+				return;
+			}
+
 			FillAmount -= amount;
 		}
 	}

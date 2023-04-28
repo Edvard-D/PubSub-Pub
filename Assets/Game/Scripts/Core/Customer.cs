@@ -82,11 +82,14 @@ namespace PubSubPub.Core
 		{
 			Messenger.Default.Subscribe<CustomerDrinkSaleInitiatedMessage>(ChangeDrink,
 					(CustomerDrinkSaleInitiatedMessage message) => message.Customer == this);
+			Messenger.Default.Subscribe<DrinkFillAmountChangedMessage>(OnDrinkFillAmountChangedMessage,
+					(DrinkFillAmountChangedMessage message) => message.Drink == _drink);
 		}
 
 		private void OnDisable()
 		{
 			Messenger.Default.Unsubscribe<CustomerDrinkSaleInitiatedMessage>(ChangeDrink);
+			Messenger.Default.Unsubscribe<DrinkFillAmountChangedMessage>(OnDrinkFillAmountChangedMessage);
 		}
 
 		private void Update()
@@ -113,15 +116,6 @@ namespace PubSubPub.Core
 			amountToDrink = Mathf.Clamp01(Mathf.Min(amountToDrink, _drink.FillAmount));
 			_drink.DrinkDrink(amountToDrink);
 			Drunkenness += amountToDrink * _drink.Settings.AlcoholPercent * _drunkennessIncreaseMultiplier;
-
-			if(_drink.FillAmount > 0f)
-			{
-				return;
-			}
-
-			_lastDrinkFinishedTime = Time.time;
-			_wasCustomerReadyForNewDrinkMessageSent = false;
-			_drink = null;
 		}
 
 		private DrinkSettings SelectRandomDrink()
@@ -143,6 +137,18 @@ namespace PubSubPub.Core
 			throw new System.InvalidOperationException("Could not select a random drink.");
 		}
 
+		private void OnDrinkFillAmountChangedMessage(DrinkFillAmountChangedMessage message)
+		{
+			if(_drink.FillAmount > 0f)
+			{
+				return;
+			}
+
+			_drink = null;
+			_lastDrinkFinishedTime = Time.time;
+			_wasCustomerReadyForNewDrinkMessageSent = false;
+		}
+
 		private void ChangeDrink(CustomerDrinkSaleInitiatedMessage message)
 		{
 			if(_drink != null)
@@ -150,7 +156,7 @@ namespace PubSubPub.Core
 				return;
 			}
 
-			_drink = new Drink(this, message.DrinkSettings);
+			_drink = new Drink(message.DrinkSettings);
 			_money -= message.DrinkSettings.Price;
 			Messenger.Default.Publish(new CustomerDrinkSoldMessage(this, _drink));
 		}
