@@ -95,20 +95,13 @@ namespace PubSubPub.Core
 		private void Update()
 		{
 			TryDrinkDrink();
+			TryRequestNewDrink();
 		}
 
 		private void TryDrinkDrink()
 		{
 			if(_drink == null)
 			{
-				if(IsPassedOut == false
-					&& _lastDrinkFinishedTime + _delayBetweenDrinks <= Time.time
-					&& _wasCustomerReadyForNewDrinkMessageSent == false)
-				{
-					Messenger.Default.Publish(new CustomerNewDrinkRequestedMessage(this, SelectRandomDrink()));
-					_wasCustomerReadyForNewDrinkMessageSent = true;
-				}
-				
 				return;
 			}
 
@@ -116,6 +109,19 @@ namespace PubSubPub.Core
 			amountToDrink = Mathf.Clamp01(Mathf.Min(amountToDrink, _drink.FillAmount));
 			_drink.DrinkDrink(amountToDrink);
 			Drunkenness += amountToDrink * _drink.Settings.AlcoholPercent * _drunkennessIncreaseMultiplier;
+		}
+
+		private void TryRequestNewDrink()
+		{
+			if(IsPassedOut == true
+				|| _lastDrinkFinishedTime + _delayBetweenDrinks > Time.time
+				|| _wasCustomerReadyForNewDrinkMessageSent == true)
+			{
+				return;
+			}
+			
+			Messenger.Default.Publish(new CustomerNewDrinkRequestedMessage(this, SelectRandomDrink()));
+			_wasCustomerReadyForNewDrinkMessageSent = true;
 		}
 
 		private DrinkSettings SelectRandomDrink()
