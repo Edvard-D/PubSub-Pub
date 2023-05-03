@@ -11,10 +11,10 @@ namespace PubSubPub.Game.Core.Model
 		private float _fillAmount;
 		[SerializeField]
 		[HideInInspector]
-		private DrinkSettings _settings;
+		private IDrinkSettings _settings;
 
 
-		public Drink(DrinkSettings settings)
+		public Drink(IDrinkSettings settings)
 		{
 			_fillAmount = 1f;
 			_settings = settings;
@@ -37,7 +37,7 @@ namespace PubSubPub.Game.Core.Model
 				Messenger.Default.Publish(new DrinkFillAmountChangedMessage(this, _fillAmount));
 			}
 		}
-		public DrinkSettings Settings { get { return _settings; } }
+		public IDrinkSettings Settings { get { return _settings; } }
 
 
 		public void DrinkDrink(float amount)

@@ -4,12 +4,12 @@ namespace PubSubPub.Game.Core.Messages
 {
 	public class DrinkSelectionChangedMessage
 	{
-		public DrinkSelectionChangedMessage(DrinkSettings drinkSettings)
+		public DrinkSelectionChangedMessage(IDrinkSettings drinkSettings)
 		{
 			DrinkSettings = drinkSettings;
 		}
 
 
-		public DrinkSettings DrinkSettings { get; private set; }
+		public IDrinkSettings DrinkSettings { get; private set; }
 	}
 }

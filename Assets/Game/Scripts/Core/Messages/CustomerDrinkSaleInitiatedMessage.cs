@@ -6,7 +6,7 @@ namespace PubSubPub.Game.Core.Messages
 	{
 		public CustomerDrinkSaleInitiatedMessage(
 				Customer customer,
-				DrinkSettings drink)
+				IDrinkSettings drink)
 		{
 			Customer = customer;
 			DrinkSettings = drink;
@@ -14,6 +14,6 @@ namespace PubSubPub.Game.Core.Messages
 
 
 		public Customer Customer { get; private set; }
-		public DrinkSettings DrinkSettings { get; private set; }
+		public IDrinkSettings DrinkSettings { get; private set; }
 	}
 }
