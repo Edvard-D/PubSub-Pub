@@ -12,7 +12,7 @@ namespace PubSubPub.Game.Core.Model
 	{
 		[SerializeField]
 		[HideInInspector]
-		private ICustomerSharedSettings _customerSettings;
+		private ICustomerSharedSettings _customerSharedSettings;
 		[SerializeField]
 		[HideInInspector]
 		private Drink _drink;
@@ -52,7 +52,7 @@ namespace PubSubPub.Game.Core.Model
 				float drinkRate,
 				float drunkenness)
 		{
-			_customerSettings = customerSettings;
+			_customerSharedSettings = customerSettings;
 			_drinkPreferenceWeights = drinkPreferenceWeights;
 			_drinkRate = drinkRate;
 			_drunkenness = drunkenness;
@@ -90,7 +90,7 @@ namespace PubSubPub.Game.Core.Model
 			}
 		}
 		public GameObject GameObject { get { return _gameObject; } }
-		public bool IsPassedOut { get { return _drunkenness >= _customerSettings.DrunkennessPassedOutThreshold; } }
+		public bool IsPassedOut { get { return _drunkenness >= _customerSharedSettings.DrunkennessPassedOutThreshold; } }
 
 
 		public void Initialize(ITime time)
@@ -121,13 +121,13 @@ namespace PubSubPub.Game.Core.Model
 			amountToDrink = Mathf.Clamp01(Mathf.Min(amountToDrink, _drink.FillAmount));
 			_drink.DrinkDrink(amountToDrink);
 			Drunkenness += amountToDrink * _drink.Settings.AlcoholPercent
-					* _customerSettings.DrunkennessIncreaseMultiplier;
+					* _customerSharedSettings.DrunkennessIncreaseMultiplier;
 		}
 
 		private void TryRequestNewDrink()
 		{
 			if(IsPassedOut == true
-				|| _lastDrinkFinishedTime + _customerSettings.DelayBetweenDrinks > _time.Time
+				|| _lastDrinkFinishedTime + _customerSharedSettings.DelayBetweenDrinks > _time.Time
 				|| _wasCustomerReadyForNewDrinkMessageSent == true)
 			{
 				return;
