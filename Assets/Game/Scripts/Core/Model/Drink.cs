@@ -42,9 +42,9 @@ namespace PubSubPub.Game.Core.Model
 
 		public void DrinkDrink(float amount)
 		{
-			if(amount < 0f)
+			if(amount <= 0f)
 			{
-				Debug.LogError("Argument " + nameof(amount) + " cannot be less than zero.");
+				Debug.LogError("Argument " + nameof(amount) + " cannot be less than or equal to zero.");
 
 				return;
 			}
