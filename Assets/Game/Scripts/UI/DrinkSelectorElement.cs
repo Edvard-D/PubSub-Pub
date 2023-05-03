@@ -1,10 +1,10 @@
-using PubSubPub.Core;
-using PubSubPub.Messages;
+using PubSubPub.Game.Core.Model;
+using PubSubPub.Game.Core.Messages;
 using SuperMaxim.Messaging;
 using UnityEngine.Scripting;
 using UnityEngine.UIElements;
 
-namespace PubSubPub.UI
+namespace PubSubPub.Game.UI
 {
 	public class DrinkSelectorElement : VisualElement
 	{

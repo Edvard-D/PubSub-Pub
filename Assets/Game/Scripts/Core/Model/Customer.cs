@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using PubSubPub.Messages;
+using PubSubPub.Game.Core.Messages;
 using SuperMaxim.Messaging;
 using UnityEngine;
 
-namespace PubSubPub.Core
+namespace PubSubPub.Game.Core.Model
 {
 	public class Customer : MonoBehaviour
 	{

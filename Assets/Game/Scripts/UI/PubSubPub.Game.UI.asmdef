@@ -1,0 +1,17 @@
+{
+    "name": "PubSubPub.Game.UI",
+    "rootNamespace": "PubSubPub.Game.UI",
+    "references": [
+        "GUID:aeb08ac1b9f26c145afbeaed81a1346f",
+        "GUID:feffa0a89a0324527b2df83253e9afb6"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

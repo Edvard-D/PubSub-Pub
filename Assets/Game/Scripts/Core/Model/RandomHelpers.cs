@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace PubSubPub.Core
+namespace PubSubPub.Game.Core.Model
 {
 	public static class RandomHelpers
 	{

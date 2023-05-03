@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using PubSubPub.Core;
-using PubSubPub.Messages;
+using PubSubPub.Game.Core.Model;
+using PubSubPub.Game.Core.Messages;
 using SuperMaxim.Messaging;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace PubSubPub.UI
+namespace PubSubPub.Game.UI
 {
 	public class InGameUIManager : MonoBehaviour
 	{

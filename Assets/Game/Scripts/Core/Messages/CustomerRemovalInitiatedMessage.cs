@@ -1,6 +1,6 @@
-using PubSubPub.Core;
+using PubSubPub.Game.Core.Model;
 
-namespace PubSubPub.Messages
+namespace PubSubPub.Game.Core.Messages
 {
 	public class CustomerRemovalInitiatedMessage
 	{

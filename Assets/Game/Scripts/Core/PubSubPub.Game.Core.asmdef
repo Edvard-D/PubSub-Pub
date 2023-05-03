@@ -1,0 +1,16 @@
+{
+    "name": "PubSubPub.Game.Core",
+    "rootNamespace": "PubSubPub.Game.Core",
+    "references": [
+        "SuperMaxim.PubSub"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

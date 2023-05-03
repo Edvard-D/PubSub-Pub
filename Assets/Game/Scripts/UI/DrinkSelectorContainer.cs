@@ -1,9 +1,9 @@
-using PubSubPub.Core;
+using PubSubPub.Game.Core.Model;
 using UnityEngine;
 using UnityEngine.Scripting;
 using UnityEngine.UIElements;
 
-namespace PubSubPub.UI
+namespace PubSubPub.Game.UI
 {
 	public class DrinkSelectorContainer : VisualElement
 	{

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace PubSubPub.Core
+namespace PubSubPub.Game.Core.Model
 {
 	[CreateAssetMenu(fileName = "DrinkSettings", menuName = "PubSubPub/DrinkSettings")]
 	public class DrinkSettings : ScriptableObject
