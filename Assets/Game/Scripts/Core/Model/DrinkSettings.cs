@@ -3,7 +3,7 @@ using UnityEngine;
 namespace PubSubPub.Game.Core.Model
 {
 	[CreateAssetMenu(fileName = "DrinkSettings", menuName = "PubSubPub/DrinkSettings")]
-	public class DrinkSettings : ScriptableObject
+	public class DrinkSettings : ScriptableObject, IDrinkSettings
 	{
 		[SerializeField]
 		private string _name;

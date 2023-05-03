@@ -3,7 +3,7 @@ using UnityEngine;
 namespace PubSubPub.Game.Core.Model
 {
 	[CreateAssetMenu(fileName = "CustomerSharedSettings", menuName = "PubSubPub/CustomerSharedSettings")]
-	public class CustomerSharedSettings : ScriptableObject
+	public class CustomerSharedSettings : ScriptableObject, ICustomerSharedSettings
 	{
 		[SerializeField]
 		private float _drunkennessIncreaseMultiplier;

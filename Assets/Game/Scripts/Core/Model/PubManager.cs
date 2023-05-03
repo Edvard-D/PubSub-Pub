@@ -103,9 +103,9 @@ namespace PubSubPub.Game.Core.Model
 			Messenger.Default.Publish(new CustomerInstantiatedMessage(customer));
 		}
 
-		private Dictionary<DrinkSettings, float> GenerateDrinkPreferenceWeights()
+		private Dictionary<IDrinkSettings, float> GenerateDrinkPreferenceWeights()
 		{
-			var drinkPreferenceWeights = new Dictionary<DrinkSettings, float>();
+			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
 
 			foreach(var drinkSettings in _drinkSettings)
 			{

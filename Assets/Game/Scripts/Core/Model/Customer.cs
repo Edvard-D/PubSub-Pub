@@ -12,13 +12,13 @@ namespace PubSubPub.Game.Core.Model
 	{
 		[SerializeField]
 		[HideInInspector]
-		private CustomerSharedSettings _customerSettings;
+		private ICustomerSharedSettings _customerSettings;
 		[SerializeField]
 		[HideInInspector]
 		private Drink _drink;
 		[SerializeField]
 		[HideInInspector]
-		private Dictionary<DrinkSettings, float> _drinkPreferenceWeights;
+		private Dictionary<IDrinkSettings, float> _drinkPreferenceWeights;
 		[SerializeField]
 		[HideInInspector]
 		private float _drinkRate;
@@ -44,9 +44,9 @@ namespace PubSubPub.Game.Core.Model
 
 		public Customer(
 				GameObject gameObject,
-				CustomerSharedSettings customerSettings,
+				ICustomerSharedSettings customerSettings,
 				int money,
-				Dictionary<DrinkSettings, float> drinkPreferenceWeights,
+				Dictionary<IDrinkSettings, float> drinkPreferenceWeights,
 				float drinkRate,
 				float drunkenness)
 		{
@@ -129,7 +129,7 @@ namespace PubSubPub.Game.Core.Model
 			_wasCustomerReadyForNewDrinkMessageSent = true;
 		}
 
-		private DrinkSettings SelectRandomDrink()
+		private IDrinkSettings SelectRandomDrink()
 		{
 			var totalWeight = _drinkPreferenceWeights.Sum(kvp => kvp.Value);
 
