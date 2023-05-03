@@ -9,6 +9,8 @@ namespace PubSubPub.Game.Core.Model
 	public class PubManager : MonoBehaviour
 	{
 		[SerializeField]
+		private CustomerSharedSettings _customerSharedSettings;
+		[SerializeField]
 		private string _drinkSettingsFolderPath;
 		[SerializeField]
 		private GameObject _customerPrefab;
@@ -27,6 +29,9 @@ namespace PubSubPub.Game.Core.Model
 		[SerializeField]
 		private float _drinkRateMax;
 
+		[SerializeField]
+		[HideInInspector]
+		private List<Customer> _customers;
 		[SerializeField]
 		[HideInInspector]
 		private float _customerSpawnTimer;
@@ -49,16 +54,19 @@ namespace PubSubPub.Game.Core.Model
 		private void OnEnable()
 		{
 			Messenger.Default.Subscribe<CustomerDrinkSoldMessage>(OnCustomerDrinkSoldMessage);
+			Messenger.Default.Subscribe<CustomerRemovalInitiatedMessage>(OnCustomerRemovalInitiatedMessage);
 		}
 
 		private void OnDisable()
 		{
 			Messenger.Default.Unsubscribe<CustomerDrinkSoldMessage>(OnCustomerDrinkSoldMessage);
+			Messenger.Default.Unsubscribe<CustomerRemovalInitiatedMessage>(OnCustomerRemovalInitiatedMessage);
 		}
 
 		private void Update()
 		{
 			InstantiateCustomers();
+			UpdateCustomers();
 		}
 
 		private void InstantiateCustomers()
@@ -73,16 +81,24 @@ namespace PubSubPub.Game.Core.Model
 			}
 		}
 
+		private void UpdateCustomers()
+		{
+			foreach(var customer in _customers)
+			{
+				customer.Update();
+			}
+		}
+
 		private void InstantiateCustomer()
 		{
 			var customerGameObject = Instantiate(_customerPrefab);
-			
-			var customer = customerGameObject.GetComponent<Customer>();
 			var money = _random.Next(_startingMoneyMin, _startingMoneyMax + 1);
 			var drinkPreferenceWeights = GenerateDrinkPreferenceWeights();
 			var drinkSpeed = (float)RandomHelpers.RandomRange(_random, _drinkRateMin, _drinkRateMax);
 			var drunkenness = (float)_random.NextDouble() * _startingDrunkenessMax;
-			customer.Initialize(money, drinkPreferenceWeights, drinkSpeed, drunkenness);
+			var customer = new Customer(customerGameObject, _customerSharedSettings, money, drinkPreferenceWeights,
+					drinkSpeed, drunkenness);
+			_customers.Add(customer);
 
 			Messenger.Default.Publish(new CustomerInstantiatedMessage(customer));
 		}
@@ -102,6 +118,14 @@ namespace PubSubPub.Game.Core.Model
 		private void OnCustomerDrinkSoldMessage(CustomerDrinkSoldMessage message)
 		{
 			_money += message.Drink.Settings.Price;
+		}
+
+		private void OnCustomerRemovalInitiatedMessage(CustomerRemovalInitiatedMessage message)
+		{
+			Messenger.Default.Publish(new CustomerRemovedMessage(message.Customer));
+			message.Customer.Destroy();
+			_customers.Remove(message.Customer);
+			Destroy(message.Customer.GameObject);
 		}
 	}
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using PubSubPub.Game.Core.Messages;
@@ -6,15 +7,12 @@ using UnityEngine;
 
 namespace PubSubPub.Game.Core.Model
 {
-	public class Customer : MonoBehaviour
+	[Serializable]
+	public class Customer
 	{
 		[SerializeField]
-		private float _drunkennessIncreaseMultiplier;
-		[SerializeField]
-		private float _drunkennessPassedOutThreshold;
-		[SerializeField]
-		private float _delayBetweenDrinks;
-
+		[HideInInspector]
+		private CustomerSharedSettings _customerSettings;
 		[SerializeField]
 		[HideInInspector]
 		private Drink _drink;
@@ -29,6 +27,9 @@ namespace PubSubPub.Game.Core.Model
 		private float _drunkenness;
 		[SerializeField]
 		[HideInInspector]
+		private GameObject _gameObject;
+		[SerializeField]
+		[HideInInspector]
 		private float _lastDrinkFinishedTime = 0f;
 		[SerializeField]
 		[HideInInspector]
@@ -39,6 +40,29 @@ namespace PubSubPub.Game.Core.Model
 		[SerializeField]
 		[HideInInspector]
 		private bool _wasCustomerReadyForNewDrinkMessageSent = false;
+
+
+		public Customer(
+				GameObject gameObject,
+				CustomerSharedSettings customerSettings,
+				int money,
+				Dictionary<DrinkSettings, float> drinkPreferenceWeights,
+				float drinkRate,
+				float drunkenness)
+		{
+			_customerSettings = customerSettings;
+			_drinkPreferenceWeights = drinkPreferenceWeights;
+			_drinkRate = drinkRate;
+			_drunkenness = drunkenness;
+			_gameObject = gameObject;
+			_money = money;
+			_random = new System.Random();
+
+			Messenger.Default.Subscribe<CustomerDrinkSaleInitiatedMessage>(ChangeDrink,
+					(CustomerDrinkSaleInitiatedMessage message) => message.Customer == this);
+			Messenger.Default.Subscribe<DrinkFillAmountChangedMessage>(OnDrinkFillAmountChangedMessage,
+					(DrinkFillAmountChangedMessage message) => message.Drink == _drink);
+		}
 
 
 		private float Drunkenness
@@ -62,43 +86,20 @@ namespace PubSubPub.Game.Core.Model
 				Messenger.Default.Publish(new CustomerPassedOutMessage(this));
 			}
 		}
-		public bool IsPassedOut { get { return _drunkenness >= _drunkennessPassedOutThreshold; } }
+		public GameObject GameObject { get { return _gameObject; } }
+		public bool IsPassedOut { get { return _drunkenness >= _customerSettings.DrunkennessPassedOutThreshold; } }
 
 
-		public void Initialize(
-				int money,
-				Dictionary<DrinkSettings, float> drinkPreferenceWeights,
-				float drinkRate,
-				float drunkenness)
-		{
-			_drinkPreferenceWeights = drinkPreferenceWeights;
-			_drinkRate = drinkRate;
-			_drunkenness = drunkenness;
-			_money = money;
-			_random = new System.Random();
-		}
-
-		private void OnEnable()
-		{
-			Messenger.Default.Subscribe<CustomerDrinkSaleInitiatedMessage>(ChangeDrink,
-					(CustomerDrinkSaleInitiatedMessage message) => message.Customer == this);
-			Messenger.Default.Subscribe<CustomerRemovalInitiatedMessage>(OnCustomerRemovalInitiatedMessage,
-					(CustomerRemovalInitiatedMessage message) => message.Customer == this);
-			Messenger.Default.Subscribe<DrinkFillAmountChangedMessage>(OnDrinkFillAmountChangedMessage,
-					(DrinkFillAmountChangedMessage message) => message.Drink == _drink);
-		}
-
-		private void OnDisable()
-		{
-			Messenger.Default.Unsubscribe<CustomerDrinkSaleInitiatedMessage>(ChangeDrink);
-			Messenger.Default.Unsubscribe<CustomerRemovalInitiatedMessage>(OnCustomerRemovalInitiatedMessage);
-			Messenger.Default.Unsubscribe<DrinkFillAmountChangedMessage>(OnDrinkFillAmountChangedMessage);
-		}
-
-		private void Update()
+		public void Update()
 		{
 			TryDrinkDrink();
 			TryRequestNewDrink();
+		}
+
+		public void Destroy()
+		{
+			Messenger.Default.Unsubscribe<CustomerDrinkSaleInitiatedMessage>(ChangeDrink);
+			Messenger.Default.Unsubscribe<DrinkFillAmountChangedMessage>(OnDrinkFillAmountChangedMessage);
 		}
 
 		private void TryDrinkDrink()
@@ -111,13 +112,14 @@ namespace PubSubPub.Game.Core.Model
 			var amountToDrink = _drinkRate * Time.deltaTime;
 			amountToDrink = Mathf.Clamp01(Mathf.Min(amountToDrink, _drink.FillAmount));
 			_drink.DrinkDrink(amountToDrink);
-			Drunkenness += amountToDrink * _drink.Settings.AlcoholPercent * _drunkennessIncreaseMultiplier;
+			Drunkenness += amountToDrink * _drink.Settings.AlcoholPercent
+					* _customerSettings.DrunkennessIncreaseMultiplier;
 		}
 
 		private void TryRequestNewDrink()
 		{
 			if(IsPassedOut == true
-				|| _lastDrinkFinishedTime + _delayBetweenDrinks > Time.time
+				|| _lastDrinkFinishedTime + _customerSettings.DelayBetweenDrinks > Time.time
 				|| _wasCustomerReadyForNewDrinkMessageSent == true)
 			{
 				return;
@@ -168,12 +170,6 @@ namespace PubSubPub.Game.Core.Model
 			_drink = new Drink(message.DrinkSettings);
 			_money -= message.DrinkSettings.Price;
 			Messenger.Default.Publish(new CustomerDrinkSoldMessage(this, _drink));
-		}
-
-		private void OnCustomerRemovalInitiatedMessage(CustomerRemovalInitiatedMessage message)
-		{
-			Messenger.Default.Publish(new CustomerRemovedMessage(message.Customer));
-			Destroy(this.gameObject);
 		}
 	}
 }
