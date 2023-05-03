@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Scripting;
 using UnityEngine.UIElements;
 
-namespace PubSubPub
+namespace PubSubPub.UI
 {
 	public class CustomerElement : VisualElement
 	{

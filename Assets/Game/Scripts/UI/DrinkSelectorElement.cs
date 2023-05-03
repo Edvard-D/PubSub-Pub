@@ -4,7 +4,7 @@ using SuperMaxim.Messaging;
 using UnityEngine.Scripting;
 using UnityEngine.UIElements;
 
-namespace PubSubPub
+namespace PubSubPub.UI
 {
 	public class DrinkSelectorElement : VisualElement
 	{
