@@ -43,12 +43,14 @@ namespace PubSubPub.Game.Core.Model
 		private System.Random _random;
 
 		private List<DrinkSettings> _drinkSettings;
+		private ITime _time;
 
 
 		private void Awake()
 		{
 			_random = new System.Random();
 			_drinkSettings = Resources.LoadAll<DrinkSettings>(_drinkSettingsFolderPath).ToList();
+			_time = new TimeWrapper();
 		}
 		
 		private void OnEnable()
@@ -71,8 +73,8 @@ namespace PubSubPub.Game.Core.Model
 
 		private void InstantiateCustomers()
 		{
-			_spawnRate -= _spawnRateDecreaseRate * Time.deltaTime;
-			_customerSpawnTimer += Time.deltaTime;
+			_spawnRate -= _spawnRateDecreaseRate * _time.DeltaTime;
+			_customerSpawnTimer += _time.DeltaTime;
 
 			if(_customerSpawnTimer >= _spawnRate)
 			{
@@ -98,6 +100,7 @@ namespace PubSubPub.Game.Core.Model
 			var drunkenness = (float)_random.NextDouble() * _startingDrunkenessMax;
 			var customer = new Customer(customerGameObject, _customerSharedSettings, money, drinkPreferenceWeights,
 					drinkSpeed, drunkenness);
+			customer.Initialize(_time);
 			_customers.Add(customer);
 
 			Messenger.Default.Publish(new CustomerInstantiatedMessage(customer));

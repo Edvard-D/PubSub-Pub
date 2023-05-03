@@ -41,6 +41,8 @@ namespace PubSubPub.Game.Core.Model
 		[HideInInspector]
 		private bool _wasCustomerReadyForNewDrinkMessageSent = false;
 
+		private ITime _time;
+
 
 		public Customer(
 				GameObject gameObject,
@@ -63,6 +65,7 @@ namespace PubSubPub.Game.Core.Model
 			Messenger.Default.Subscribe<DrinkFillAmountChangedMessage>(OnDrinkFillAmountChangedMessage,
 					(DrinkFillAmountChangedMessage message) => message.Drink == _drink);
 		}
+
 
 
 		private float Drunkenness
@@ -90,6 +93,11 @@ namespace PubSubPub.Game.Core.Model
 		public bool IsPassedOut { get { return _drunkenness >= _customerSettings.DrunkennessPassedOutThreshold; } }
 
 
+		public void Initialize(ITime time)
+		{
+			_time = time;
+		}
+
 		public void Update()
 		{
 			TryDrinkDrink();
@@ -109,7 +117,7 @@ namespace PubSubPub.Game.Core.Model
 				return;
 			}
 
-			var amountToDrink = _drinkRate * Time.deltaTime;
+			var amountToDrink = _drinkRate * _time.DeltaTime;
 			amountToDrink = Mathf.Clamp01(Mathf.Min(amountToDrink, _drink.FillAmount));
 			_drink.DrinkDrink(amountToDrink);
 			Drunkenness += amountToDrink * _drink.Settings.AlcoholPercent
@@ -119,7 +127,7 @@ namespace PubSubPub.Game.Core.Model
 		private void TryRequestNewDrink()
 		{
 			if(IsPassedOut == true
-				|| _lastDrinkFinishedTime + _customerSettings.DelayBetweenDrinks > Time.time
+				|| _lastDrinkFinishedTime + _customerSettings.DelayBetweenDrinks > _time.Time
 				|| _wasCustomerReadyForNewDrinkMessageSent == true)
 			{
 				return;
@@ -156,7 +164,7 @@ namespace PubSubPub.Game.Core.Model
 			}
 
 			_drink = null;
-			_lastDrinkFinishedTime = Time.time;
+			_lastDrinkFinishedTime = _time.Time;
 			_wasCustomerReadyForNewDrinkMessageSent = false;
 		}
 
