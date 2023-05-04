@@ -41,6 +41,7 @@ namespace PubSubPub.Game.Core.Model
 		[HideInInspector]
 		private bool _wasCustomerReadyForNewDrinkMessageSent = false;
 
+		private IMessenger _messenger;
 		private ITime _time;
 
 
@@ -61,9 +62,9 @@ namespace PubSubPub.Game.Core.Model
 			_money = money;
 			_random = random;
 
-			Messenger.Default.Subscribe<CustomerDrinkSaleInitiatedMessage>(ChangeDrink,
+			_messenger.Subscribe<CustomerDrinkSaleInitiatedMessage>(ChangeDrink,
 					(CustomerDrinkSaleInitiatedMessage message) => message.Customer == this);
-			Messenger.Default.Subscribe<DrinkFillAmountChangedMessage>(OnDrinkFillAmountChangedMessage,
+			_messenger.Subscribe<DrinkFillAmountChangedMessage>(OnDrinkFillAmountChangedMessage,
 					(DrinkFillAmountChangedMessage message) => message.Drink == _drink);
 		}
 
@@ -86,15 +87,18 @@ namespace PubSubPub.Game.Core.Model
 					return;
 				}
 
-				Messenger.Default.Publish(new CustomerPassedOutMessage(this));
+				_messenger.Publish(new CustomerPassedOutMessage(this));
 			}
 		}
 		public GameObject GameObject { get { return _gameObject; } }
 		public bool IsPassedOut { get { return _drunkenness >= _customerSharedSettings.DrunkennessPassedOutThreshold; } }
 
 
-		public void Initialize(ITime time)
+		public void Initialize(
+				IMessenger messenger,
+				ITime time)
 		{
+			_messenger = messenger;
 			_time = time;
 		}
 
@@ -106,8 +110,8 @@ namespace PubSubPub.Game.Core.Model
 
 		public void Destroy()
 		{
-			Messenger.Default.Unsubscribe<CustomerDrinkSaleInitiatedMessage>(ChangeDrink);
-			Messenger.Default.Unsubscribe<DrinkFillAmountChangedMessage>(OnDrinkFillAmountChangedMessage);
+			_messenger.Unsubscribe<CustomerDrinkSaleInitiatedMessage>(ChangeDrink);
+			_messenger.Unsubscribe<DrinkFillAmountChangedMessage>(OnDrinkFillAmountChangedMessage);
 		}
 
 		private void TryDrinkDrink()
@@ -134,7 +138,7 @@ namespace PubSubPub.Game.Core.Model
 				return;
 			}
 			
-			Messenger.Default.Publish(new CustomerNewDrinkRequestedMessage(this, SelectRandomDrink()));
+			_messenger.Publish(new CustomerNewDrinkRequestedMessage(this, SelectRandomDrink()));
 			_wasCustomerReadyForNewDrinkMessageSent = true;
 		}
 
@@ -177,8 +181,9 @@ namespace PubSubPub.Game.Core.Model
 			}
 
 			_drink = new Drink(message.DrinkSettings);
+			_drink.Initialize(_messenger);
 			_money -= message.DrinkSettings.Price;
-			Messenger.Default.Publish(new CustomerDrinkSoldMessage(this, _drink));
+			_messenger.Publish(new CustomerDrinkSoldMessage(this, _drink));
 		}
 	}
 }

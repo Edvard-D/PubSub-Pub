@@ -13,6 +13,8 @@ namespace PubSubPub.Game.Core.Model
 		[HideInInspector]
 		private IDrinkSettings _settings;
 
+		private IMessenger _messenger;
+
 
 		public Drink(IDrinkSettings settings)
 		{
@@ -34,19 +36,22 @@ namespace PubSubPub.Game.Core.Model
 
 				_fillAmount = value;
 
-				Messenger.Default.Publish(new DrinkFillAmountChangedMessage(this, _fillAmount));
+				_messenger.Publish(new DrinkFillAmountChangedMessage(this, _fillAmount));
 			}
 		}
 		public IDrinkSettings Settings { get { return _settings; } }
 
+		
+		public void Initialize(IMessenger messenger)
+		{
+			_messenger = messenger;
+		}
 
 		public void DrinkDrink(float amount)
 		{
 			if(amount <= 0f)
 			{
 				Debug.LogError("Argument " + nameof(amount) + " cannot be less than or equal to zero.");
-
-				return;
 			}
 
 			FillAmount -= amount;

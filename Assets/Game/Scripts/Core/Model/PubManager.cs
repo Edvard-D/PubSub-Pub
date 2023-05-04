@@ -100,7 +100,7 @@ namespace PubSubPub.Game.Core.Model
 			var drunkenness = (float)_random.NextDouble() * _startingDrunkenessMax;
 			var customer = new Customer(customerGameObject, _random, _customerSharedSettings, money,
 					drinkPreferenceWeights, drinkSpeed, drunkenness);
-			customer.Initialize(_time);
+			customer.Initialize(Messenger.Default, _time);
 			_customers.Add(customer);
 
 			Messenger.Default.Publish(new CustomerInstantiatedMessage(customer));
