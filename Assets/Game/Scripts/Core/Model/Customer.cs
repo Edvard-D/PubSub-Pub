@@ -95,11 +95,6 @@ namespace PubSubPub.Game.Core.Model
 			_gameObject = gameObject;
 			_money = money;
 			_random = random;
-
-			_messenger.Subscribe<CustomerDrinkSaleInitiatedMessage>(ChangeDrink,
-					(CustomerDrinkSaleInitiatedMessage message) => message.Customer == this);
-			_messenger.Subscribe<DrinkFillAmountChangedMessage>(OnDrinkFillAmountChangedMessage,
-					(DrinkFillAmountChangedMessage message) => message.Drink == _drink);
 		}
 
 
@@ -134,6 +129,11 @@ namespace PubSubPub.Game.Core.Model
 		{
 			_messenger = messenger;
 			_time = time;
+
+			_messenger.Subscribe<CustomerDrinkSaleInitiatedMessage>(ChangeDrink,
+					(CustomerDrinkSaleInitiatedMessage message) => message.Customer == this);
+			_messenger.Subscribe<DrinkFillAmountChangedMessage>(OnDrinkFillAmountChangedMessage,
+					(DrinkFillAmountChangedMessage message) => message.Drink == _drink);
 		}
 
 		public void Update()
