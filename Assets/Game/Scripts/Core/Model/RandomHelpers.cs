@@ -11,7 +11,7 @@ namespace PubSubPub.Game.Core.Model
 				bool shouldRandomizeSign = false,
 				bool shouldRound = false)
 		{
-			var randomValue = (random.NextDouble() * (minValue - maxValue)) + minValue;
+			var randomValue = (random.NextDouble() * (maxValue - minValue)) + minValue;
 			randomValue *= shouldRandomizeSign == true && random.NextDouble() < 0.5D ? -1 : 1;
 
 			if(shouldRound == true)
