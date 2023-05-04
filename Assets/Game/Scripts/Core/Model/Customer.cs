@@ -48,13 +48,47 @@ namespace PubSubPub.Game.Core.Model
 		public Customer(
 				GameObject gameObject,
 				IRandom random,
-				ICustomerSharedSettings customerSettings,
+				ICustomerSharedSettings customerSharedSettings,
 				int money,
 				Dictionary<IDrinkSettings, float> drinkPreferenceWeights,
 				float drinkRate,
 				float drunkenness)
 		{
-			_customerSharedSettings = customerSettings;
+			if(drinkRate <= 0f)
+			{
+				throw new ArgumentException($"{nameof(drinkRate)} must be greater than 0.");
+			}
+
+			if(drunkenness < 0f)
+			{
+				throw new ArgumentException($"{nameof(drunkenness)} must be greater than or equal to 0.");
+			}
+
+			if(money < 0)
+			{
+				throw new ArgumentException($"{nameof(money)} must be greater than or equal to 0.");
+			}
+
+			if(customerSharedSettings.DrunkennessIncreaseMultiplier <= 0f)
+			{
+				throw new ArgumentException(nameof(customerSharedSettings.DrunkennessIncreaseMultiplier)
+						+ " must be greater than 0.");
+			}
+
+			if(customerSharedSettings.DrunkennessPassedOutThreshold <= 0f
+				|| customerSharedSettings.DrunkennessPassedOutThreshold > 1f)
+			{
+				throw new ArgumentException(nameof(customerSharedSettings.DrunkennessPassedOutThreshold)
+						+ " must be greater than 0 and less than or equal to 1.");
+			}
+
+			if(customerSharedSettings.DelayBetweenDrinks <= 0f)
+			{
+				throw new ArgumentException(nameof(customerSharedSettings.DelayBetweenDrinks)
+						+ " must be greater than 0.");
+			}
+
+			_customerSharedSettings = customerSharedSettings;
 			_drinkPreferenceWeights = drinkPreferenceWeights;
 			_drinkRate = drinkRate;
 			_drunkenness = drunkenness;
