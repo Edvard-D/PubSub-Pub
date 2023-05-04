@@ -54,19 +54,14 @@ namespace PubSubPub.Game.Core.Model
 				float drinkRate,
 				float drunkenness)
 		{
-			if(drinkRate <= 0f)
+			if(random == null)
 			{
-				throw new ArgumentException($"{nameof(drinkRate)} must be greater than 0.");
+				throw new ArgumentNullException(nameof(random));
 			}
 
-			if(drunkenness < 0f)
+			if(customerSharedSettings == null)
 			{
-				throw new ArgumentException($"{nameof(drunkenness)} must be greater than or equal to 0.");
-			}
-
-			if(money < 0)
-			{
-				throw new ArgumentException($"{nameof(money)} must be greater than or equal to 0.");
+				throw new ArgumentNullException(nameof(customerSharedSettings));
 			}
 
 			if(customerSharedSettings.DrunkennessIncreaseMultiplier <= 0f)
@@ -86,6 +81,26 @@ namespace PubSubPub.Game.Core.Model
 			{
 				throw new ArgumentException(nameof(customerSharedSettings.DelayBetweenDrinks)
 						+ " must be greater than 0.");
+			}
+
+			if(money < 0)
+			{
+				throw new ArgumentException($"{nameof(money)} must be greater than or equal to 0.");
+			}
+
+			if(drinkPreferenceWeights == null || drinkPreferenceWeights.Count == 0)
+			{
+				throw new ArgumentException($"{nameof(drinkPreferenceWeights)} cannot be null or empty.");
+			}
+
+			if(drinkRate <= 0f)
+			{
+				throw new ArgumentException($"{nameof(drinkRate)} must be greater than 0.");
+			}
+
+			if(drunkenness < 0f)
+			{
+				throw new ArgumentException($"{nameof(drunkenness)} must be greater than or equal to 0.");
 			}
 
 			_customerSharedSettings = customerSharedSettings;

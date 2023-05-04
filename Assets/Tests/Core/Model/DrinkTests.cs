@@ -9,7 +9,13 @@ namespace PubSubPub.Tests.Core.Model
     public class DrinkTests
     {
 		[Test]
-		public void DrinkConstructor_SetsFillAmountTo1()
+		public void Constructor_ThrowsArgumentNullException_WhenSettingsIsNull()
+		{
+			Assert.Throws<System.ArgumentNullException>(() => new Drink(null));
+		}
+
+		[Test]
+		public void Constructor_SetsFillAmountTo1()
 		{
 			var messenger = new MessengerStub();
 			var drink = new Drink(new DrinkSettingsStub());

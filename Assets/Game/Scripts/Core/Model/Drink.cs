@@ -1,3 +1,4 @@
+using System;
 using PubSubPub.Game.Core.Messages;
 using SuperMaxim.Messaging;
 using UnityEngine;
@@ -18,6 +19,11 @@ namespace PubSubPub.Game.Core.Model
 
 		public Drink(IDrinkSettings settings)
 		{
+			if(settings == null)
+			{
+				throw new ArgumentNullException(nameof(settings));
+			}
+
 			_fillAmount = 1f;
 			_settings = settings;
 		}

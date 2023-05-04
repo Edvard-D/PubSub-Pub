@@ -11,6 +11,26 @@ namespace PubSubPub.Tests.Core.Model
     public class CustomerTests
     {
 		[Test]
+		public void Constructor_ThrowsArgumentNullException_WhenRandomIsNull()
+		{
+			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 1f);
+			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
+
+			Assert.Throws<ArgumentNullException>(() => new Customer(null, null, customerSharedSettings, 1,
+					drinkPreferenceWeights, 1f, 0f));
+		}
+
+		[Test]
+		public void Constructor_ThrowsArgumentNullException_WhenCustomerSharedSettingsIsNull()
+		{
+			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
+			var random = new RandomStub(new List<double>() { 1f });
+
+			Assert.Throws<ArgumentNullException>(() => new Customer(null, random, null, 1,
+					drinkPreferenceWeights, 1f, 0f));
+		}
+
+		[Test]
 		public void Constructor_ThrowsArgumentException_WhenDrinkRateIsZero()
 		{
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 1f);
@@ -132,6 +152,26 @@ namespace PubSubPub.Tests.Core.Model
 		}
 
 		[Test]
+		public void Constructor_ThrowsArgumentException_WhenDrinkPreferenceWeightsIsNull()
+		{
+			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 1f);
+			var random = new RandomStub(new List<double>() { 1f });
+
+			Assert.Throws<ArgumentException>(() => new Customer(null, random, customerSharedSettings, 1, null, 1f, 0f));
+		}
+
+		[Test]
+		public void Constructor_ThrowsArgumentException_WhenDrinkPreferenceWeightsIsEmpty()
+		{
+			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 1f);
+			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
+			var random = new RandomStub(new List<double>() { 1f });
+
+			Assert.Throws<ArgumentException>(() => new Customer(null, random, customerSharedSettings, 1,
+					drinkPreferenceWeights, 1f, 0f));
+		}
+
+		[Test]
 		public void Update_ChangesIsPassedOut_WhenDoesHaveDrink()
 		{
 			var alcoholPercent = 1f;
@@ -160,7 +200,10 @@ namespace PubSubPub.Tests.Core.Model
 		public void Update_DoesNotChangeIsPassedOut_WhenDoesNotHaveDrink()
 		{
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 1f);
-			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
+			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>()
+			{
+				{ new DrinkSettingsStub("drink1", 1, 1f), 1f }
+			};
 			var random = new RandomStub(new List<double>() { 1f });
 			var messenger = new MessengerStub();
 			var time = new TimeStub()
@@ -312,7 +355,10 @@ namespace PubSubPub.Tests.Core.Model
 		public void Update_DoesNotPublishDrinkFillAmountChangedMessage_WhenDoesNotHaveDrink()
 		{
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 1f);
-			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
+			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>()
+			{
+				{ new DrinkSettingsStub("drink1", 1, 1f), 1f }
+			};
 			var random = new RandomStub(new List<double>() { 1f });
 			var messenger = new MessengerStub();
 			var time = new TimeStub()
