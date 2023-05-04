@@ -157,9 +157,9 @@ namespace PubSubPub.Game.Core.Model
 
 			var amountToDrink = _drinkRate * _time.DeltaTime;
 			amountToDrink = Mathf.Clamp01(Mathf.Min(amountToDrink, _drink.FillAmount));
-			_drink.DrinkDrink(amountToDrink);
 			Drunkenness += amountToDrink * _drink.Settings.AlcoholPercent
 					* _customerSharedSettings.DrunkennessIncreaseMultiplier;
+			_drink.DrinkDrink(amountToDrink);
 		}
 
 		private void TryRequestNewDrink()
