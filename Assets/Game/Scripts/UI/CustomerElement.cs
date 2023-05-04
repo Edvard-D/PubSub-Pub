@@ -14,7 +14,7 @@ namespace PubSubPub.Game.UI
 		
 		private Customer _customer;
 		private Texture2D _passedOutTexture;
-		private DrinkSettings _selectedDrinkSettings;
+		private IDrinkSettings _selectedDrinkSettings;
 		private VisualElement _statusIcon;
 
 
