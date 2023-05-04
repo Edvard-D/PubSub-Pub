@@ -27,9 +27,6 @@ namespace PubSubPub.Game.Core.Model
 		private float _drunkenness;
 		[SerializeField]
 		[HideInInspector]
-		private GameObject _gameObject;
-		[SerializeField]
-		[HideInInspector]
 		private float _lastDrinkFinishedTime = 0f;
 		[SerializeField]
 		[HideInInspector]
@@ -46,7 +43,6 @@ namespace PubSubPub.Game.Core.Model
 
 
 		public Customer(
-				GameObject gameObject,
 				IRandom random,
 				ICustomerSharedSettings customerSharedSettings,
 				int money,
@@ -107,7 +103,6 @@ namespace PubSubPub.Game.Core.Model
 			_drinkPreferenceWeights = drinkPreferenceWeights;
 			_drinkRate = drinkRate;
 			_drunkenness = drunkenness;
-			_gameObject = gameObject;
 			_money = money;
 			_random = random;
 		}
@@ -134,7 +129,6 @@ namespace PubSubPub.Game.Core.Model
 				_messenger.Publish(new CustomerPassedOutMessage(this));
 			}
 		}
-		public GameObject GameObject { get { return _gameObject; } }
 		public bool IsPassedOut { get { return _drunkenness >= _customerSharedSettings.DrunkennessPassedOutThreshold; } }
 
 

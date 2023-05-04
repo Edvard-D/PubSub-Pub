@@ -31,7 +31,7 @@ namespace PubSubPub.Game.Core.Model
 
 		[SerializeField]
 		[HideInInspector]
-		private List<Customer> _customers;
+		private Dictionary<Customer, GameObject> _customers;
 		[SerializeField]
 		[HideInInspector]
 		private float _customerSpawnTimer;
@@ -85,7 +85,7 @@ namespace PubSubPub.Game.Core.Model
 
 		private void UpdateCustomers()
 		{
-			foreach(var customer in _customers)
+			foreach(var customer in _customers.Keys)
 			{
 				customer.Update();
 			}
@@ -98,10 +98,10 @@ namespace PubSubPub.Game.Core.Model
 			var drinkPreferenceWeights = GenerateDrinkPreferenceWeights();
 			var drinkSpeed = (float)RandomHelpers.RandomRange(_random, _drinkRateMin, _drinkRateMax);
 			var drunkenness = (float)_random.NextDouble() * _startingDrunkenessMax;
-			var customer = new Customer(customerGameObject, _random, _customerSharedSettings, money,
+			var customer = new Customer(_random, _customerSharedSettings, money,
 					drinkPreferenceWeights, drinkSpeed, drunkenness);
 			customer.Initialize(Messenger.Default, _time);
-			_customers.Add(customer);
+			_customers.Add(customer, gameObject);
 
 			Messenger.Default.Publish(new CustomerInstantiatedMessage(customer));
 		}
@@ -127,8 +127,8 @@ namespace PubSubPub.Game.Core.Model
 		{
 			Messenger.Default.Publish(new CustomerRemovedMessage(message.Customer));
 			message.Customer.Destroy();
+			Destroy(_customers[message.Customer]);
 			_customers.Remove(message.Customer);
-			Destroy(message.Customer.GameObject);
 		}
 	}
 }
