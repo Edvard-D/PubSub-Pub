@@ -4,7 +4,6 @@ using NUnit.Framework;
 using PubSubPub.Game.Core.Messages;
 using PubSubPub.Game.Core.Model;
 using PubSubPub.Tests.Stubs;
-using SuperMaxim.Messaging;
 
 namespace PubSubPub.Tests.Core.Model
 {
