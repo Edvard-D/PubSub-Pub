@@ -5,7 +5,7 @@ namespace PubSubPub.Game.Core.Model
 	public static class RandomHelpers
 	{
 		public static double RandomRange(
-				System.Random random,
+				IRandom random,
 				float minValue,
 				float maxValue,
 				bool shouldRandomizeSign = false,

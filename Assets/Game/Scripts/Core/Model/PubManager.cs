@@ -40,7 +40,7 @@ namespace PubSubPub.Game.Core.Model
 		private float _money;
 		[SerializeField]
 		[HideInInspector]
-		private System.Random _random;
+		private IRandom _random;
 
 		private List<DrinkSettings> _drinkSettings;
 		private ITime _time;
@@ -48,7 +48,7 @@ namespace PubSubPub.Game.Core.Model
 
 		private void Awake()
 		{
-			_random = new System.Random();
+			_random = new Model.Random();
 			_drinkSettings = Resources.LoadAll<DrinkSettings>(_drinkSettingsFolderPath).ToList();
 			_time = new TimeWrapper();
 		}
@@ -98,8 +98,8 @@ namespace PubSubPub.Game.Core.Model
 			var drinkPreferenceWeights = GenerateDrinkPreferenceWeights();
 			var drinkSpeed = (float)RandomHelpers.RandomRange(_random, _drinkRateMin, _drinkRateMax);
 			var drunkenness = (float)_random.NextDouble() * _startingDrunkenessMax;
-			var customer = new Customer(customerGameObject, _customerSharedSettings, money, drinkPreferenceWeights,
-					drinkSpeed, drunkenness);
+			var customer = new Customer(customerGameObject, _random, _customerSharedSettings, money,
+					drinkPreferenceWeights, drinkSpeed, drunkenness);
 			customer.Initialize(_time);
 			_customers.Add(customer);
 

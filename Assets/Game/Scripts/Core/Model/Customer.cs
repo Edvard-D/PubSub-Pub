@@ -36,7 +36,7 @@ namespace PubSubPub.Game.Core.Model
 		private int _money;
 		[SerializeField]
 		[HideInInspector]
-		private System.Random _random;
+		private IRandom _random;
 		[SerializeField]
 		[HideInInspector]
 		private bool _wasCustomerReadyForNewDrinkMessageSent = false;
@@ -46,6 +46,7 @@ namespace PubSubPub.Game.Core.Model
 
 		public Customer(
 				GameObject gameObject,
+				IRandom random,
 				ICustomerSharedSettings customerSettings,
 				int money,
 				Dictionary<IDrinkSettings, float> drinkPreferenceWeights,
@@ -58,14 +59,13 @@ namespace PubSubPub.Game.Core.Model
 			_drunkenness = drunkenness;
 			_gameObject = gameObject;
 			_money = money;
-			_random = new System.Random();
+			_random = random;
 
 			Messenger.Default.Subscribe<CustomerDrinkSaleInitiatedMessage>(ChangeDrink,
 					(CustomerDrinkSaleInitiatedMessage message) => message.Customer == this);
 			Messenger.Default.Subscribe<DrinkFillAmountChangedMessage>(OnDrinkFillAmountChangedMessage,
 					(DrinkFillAmountChangedMessage message) => message.Drink == _drink);
 		}
-
 
 
 		private float Drunkenness
