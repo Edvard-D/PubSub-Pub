@@ -126,7 +126,8 @@ namespace PubSubPub.Game.Core.Model
 
 		private void TryRequestNewDrink()
 		{
-			if(IsPassedOut == true
+			if(_drink != null
+				|| IsPassedOut == true
 				|| _lastDrinkFinishedTime + _customerSharedSettings.DelayBetweenDrinks > _time.Time
 				|| _wasCustomerReadyForNewDrinkMessageSent == true)
 			{
