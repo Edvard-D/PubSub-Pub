@@ -6,10 +6,10 @@ namespace PubSubPub.Game.Core.Messages
 	{
 		public CustomerDrinkSoldMessage(
 				Customer customer,
-				Drink _drink)
+				Drink drink)
 		{
 			Customer = customer;
-			Drink = _drink;
+			Drink = drink;
 		}
 
 
