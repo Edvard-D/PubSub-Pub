@@ -14,7 +14,10 @@ namespace PubSubPub.Tests.Core.Model
 		{
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var time = new TimeStub();
 
 			Assert.Throws<ArgumentNullException>(() => new Customer(null, time, random, customerSharedSettings, 1,
@@ -26,7 +29,10 @@ namespace PubSubPub.Tests.Core.Model
 		{
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 
 			Assert.Throws<ArgumentNullException>(() => new Customer(messenger, null, random, customerSharedSettings, 1,
@@ -49,7 +55,10 @@ namespace PubSubPub.Tests.Core.Model
 		public void Constructor_ThrowsArgumentNullException_WhenCustomerSharedSettingsIsNull()
 		{
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub();
 
@@ -62,7 +71,10 @@ namespace PubSubPub.Tests.Core.Model
 		{
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub();
 
@@ -75,7 +87,10 @@ namespace PubSubPub.Tests.Core.Model
 		{
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub();
 
@@ -88,7 +103,10 @@ namespace PubSubPub.Tests.Core.Model
 		{
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub();
 
@@ -101,7 +119,10 @@ namespace PubSubPub.Tests.Core.Model
 		{
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub();
 
@@ -114,7 +135,10 @@ namespace PubSubPub.Tests.Core.Model
 		{
 			var customerSharedSettings = new CustomerSharedSettingsStub(0f, 1f, 1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub();
 
@@ -127,7 +151,10 @@ namespace PubSubPub.Tests.Core.Model
 		{
 			var customerSharedSettings = new CustomerSharedSettingsStub(-1f, 1f, 1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub();
 
@@ -140,7 +167,10 @@ namespace PubSubPub.Tests.Core.Model
 		{
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 0f, 1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub();
 
@@ -153,7 +183,10 @@ namespace PubSubPub.Tests.Core.Model
 		{
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, -1f, 1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub();
 
@@ -166,7 +199,10 @@ namespace PubSubPub.Tests.Core.Model
 		{
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1.1f, 1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub();
 
@@ -179,7 +215,10 @@ namespace PubSubPub.Tests.Core.Model
 		{
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 0f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub();
 
@@ -192,7 +231,10 @@ namespace PubSubPub.Tests.Core.Model
 		{
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, -1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub();
 
@@ -204,7 +246,10 @@ namespace PubSubPub.Tests.Core.Model
 		public void Constructor_ThrowsArgumentException_WhenDrinkPreferenceWeightsIsNull()
 		{
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 1f);
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub();
 
@@ -217,7 +262,10 @@ namespace PubSubPub.Tests.Core.Model
 		{
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub();
 
@@ -235,7 +283,10 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				{ drink1Settings, 1f }
 			};
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub()
 			{
@@ -258,7 +309,10 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				{ new DrinkSettingsStub("drink1", 1, 1f), 1f }
 			};
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub()
 			{
@@ -283,7 +337,10 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				{ drink1Settings, 1f }
 			};
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub()
 			{
@@ -309,7 +366,10 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				{ drink1Settings, 1f }
 			};
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub()
 			{
@@ -336,7 +396,10 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				{ drink1Settings, 1f }
 			};
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub()
 			{
@@ -361,7 +424,10 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				{ drink1Settings, 1f }
 			};
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub()
 			{
@@ -387,7 +453,10 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				{ drink1Settings, 1f }
 			};
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub()
 			{
@@ -413,7 +482,10 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				{ new DrinkSettingsStub("drink1", 1, 1f), 1f }
 			};
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub()
 			{
@@ -439,7 +511,10 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				{ drink1Settings, 1f }
 			};
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub()
 			{
@@ -467,7 +542,10 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				{ drink1Settings, 1f }
 			};
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub()
 			{
@@ -495,7 +573,10 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				{ drink1Settings, 1f }
 			};
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub()
 			{
@@ -522,7 +603,10 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				{ new DrinkSettingsStub("drink1", 1, 1f), 1f }
 			};
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub()
 			{
@@ -546,7 +630,10 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				{ new DrinkSettingsStub("drink1", 1, 0f), 1f }
 			};
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub()
 			{
@@ -573,7 +660,10 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				{ new DrinkSettingsStub("drink1", drinkCost, 1f), 1f }
 			};
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub()
 			{
@@ -603,7 +693,10 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				{ new DrinkSettingsStub("drink1", drinkCost, 1f), 1f }
 			};
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub()
 			{
@@ -639,7 +732,10 @@ namespace PubSubPub.Tests.Core.Model
 
 			for(int i = 0; i < randomValues.Count; i++)
 			{
-				var random = new RandomStub(new List<double>() { randomValues[i] });
+				var random = new RandomStub()
+				{
+					RandomDoubleValues = new List<double>() { randomValues[i] }
+				};
 				var time = new TimeStub()
 				{
 					DeltaTime = 1f,
@@ -678,7 +774,10 @@ namespace PubSubPub.Tests.Core.Model
 
 			for(int i = 0; i < randomValues.Count; i++)
 			{
-				var random = new RandomStub(new List<double>() { randomValues[i] });
+				var random = new RandomStub()
+				{
+					RandomDoubleValues = new List<double>() { randomValues[i] }
+				};
 				var time = new TimeStub()
 				{
 					DeltaTime = 1f,
@@ -709,7 +808,10 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				{ drinkSettings, 1f }
 			};
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub()
 			{
@@ -743,7 +845,10 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				{ drinkSettings, 1f }
 			};
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub()
 			{
@@ -772,7 +877,10 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				{ drinkSettings, 1f }
 			};
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub()
 			{
@@ -804,7 +912,10 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				{ drinkSettings, 1f }
 			};
-			var random = new RandomStub(new List<double>() { 1f });
+			var random = new RandomStub()
+			{
+				RandomDoubleValues = new List<double>() { 1f }
+			};
 			var messenger = new MessengerStub();
 			var time = new TimeStub()
 			{

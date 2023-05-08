@@ -4,29 +4,30 @@ namespace PubSubPub.Game.Core.Model
 {
 	public class RandomStub : IRandom
 	{
-		private List<double> _randomValues;
-
-
-		public RandomStub(List<double> randomValues)
-		{
-			_randomValues = randomValues;
-		}
+		public List<double> RandomDoubleValues { get; set; }
+		public List<int> RandomIntValues { get; set; }
 
 
 		public int Next()
 		{
-			throw new System.NotImplementedException();
+			var nextValue = RandomIntValues[0];
+			RandomIntValues.RemoveAt(0);
+
+			return nextValue;
 		}
 
 		public int Next(int minValue, int maxValue)
 		{
-			throw new System.NotImplementedException();
+			var nextValue = RandomIntValues[0];
+			RandomIntValues.RemoveAt(0);
+
+			return nextValue;
 		}
 
 		public double NextDouble()
 		{
-			var nextValue = _randomValues[0];
-			_randomValues.RemoveAt(0);
+			var nextValue = RandomDoubleValues[0];
+			RandomDoubleValues.RemoveAt(0);
 
 			return nextValue;
 		}

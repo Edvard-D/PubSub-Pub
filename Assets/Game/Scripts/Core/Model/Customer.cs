@@ -128,10 +128,15 @@ namespace PubSubPub.Game.Core.Model
 		}
 
 
-		private float Drunkenness
+		public Dictionary<IDrinkSettings, float> DrinkPreferenceWeights
+		{
+			get { return _drinkPreferenceWeights; }
+		}
+		public float DrinkRate { get { return _drinkRate; } }
+		public float Drunkenness
 		{
 			get { return _drunkenness; }
-			set
+			private set
 			{
 				if(_drunkenness == value)
 				{
@@ -150,6 +155,8 @@ namespace PubSubPub.Game.Core.Model
 			}
 		}
 		public bool IsPassedOut { get { return _drunkenness >= _customerSharedSettings.DrunkennessPassedOutThreshold; } }
+		public int Money { get { return _money; } }
+
 
 		public void Update()
 		{
