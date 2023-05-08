@@ -98,9 +98,8 @@ namespace PubSubPub.Game.Core.Model
 			var drinkPreferenceWeights = GenerateDrinkPreferenceWeights();
 			var drinkSpeed = (float)RandomHelpers.RandomRange(_random, _drinkRateMin, _drinkRateMax);
 			var drunkenness = (float)_random.NextDouble() * _startingDrunkenessMax;
-			var customer = new Customer(_random, _customerSharedSettings, money,
+			var customer = new Customer(Messenger.Default, _time, _random, _customerSharedSettings, money,
 					drinkPreferenceWeights, drinkSpeed, drunkenness);
-			customer.Initialize(Messenger.Default, _time);
 			_customers.Add(customer, gameObject);
 
 			Messenger.Default.Publish(new CustomerInstantiatedMessage(customer));

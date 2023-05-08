@@ -43,6 +43,8 @@ namespace PubSubPub.Game.Core.Model
 
 
 		public Customer(
+				IMessenger messenger,
+				ITime time,
 				IRandom random,
 				ICustomerSharedSettings customerSharedSettings,
 				int money,
@@ -50,6 +52,16 @@ namespace PubSubPub.Game.Core.Model
 				float drinkRate,
 				float drunkenness)
 		{
+			if(messenger == null)
+			{
+				throw new ArgumentNullException(nameof(messenger));
+			}
+
+			if(time == null)
+			{
+				throw new ArgumentNullException(nameof(time));
+			}
+
 			if(random == null)
 			{
 				throw new ArgumentNullException(nameof(random));
@@ -103,8 +115,16 @@ namespace PubSubPub.Game.Core.Model
 			_drinkPreferenceWeights = drinkPreferenceWeights;
 			_drinkRate = drinkRate;
 			_drunkenness = drunkenness;
+			_messenger = messenger;
 			_money = money;
 			_random = random;
+			_time = time;
+
+
+			_messenger.Subscribe<CustomerDrinkSaleInitiatedMessage>(ChangeDrink,
+					(CustomerDrinkSaleInitiatedMessage message) => message.Customer == this);
+			_messenger.Subscribe<DrinkFillAmountChangedMessage>(OnDrinkFillAmountChangedMessage,
+					(DrinkFillAmountChangedMessage message) => message.Drink == _drink);
 		}
 
 
@@ -130,20 +150,6 @@ namespace PubSubPub.Game.Core.Model
 			}
 		}
 		public bool IsPassedOut { get { return _drunkenness >= _customerSharedSettings.DrunkennessPassedOutThreshold; } }
-
-
-		public void Initialize(
-				IMessenger messenger,
-				ITime time)
-		{
-			_messenger = messenger;
-			_time = time;
-
-			_messenger.Subscribe<CustomerDrinkSaleInitiatedMessage>(ChangeDrink,
-					(CustomerDrinkSaleInitiatedMessage message) => message.Customer == this);
-			_messenger.Subscribe<DrinkFillAmountChangedMessage>(OnDrinkFillAmountChangedMessage,
-					(DrinkFillAmountChangedMessage message) => message.Drink == _drink);
-		}
 
 		public void Update()
 		{

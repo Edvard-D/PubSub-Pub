@@ -10,12 +10,38 @@ namespace PubSubPub.Tests.Core.Model
     public class CustomerTests
     {
 		[Test]
+		public void Constructor_ThrowsArgumentNullException_WhenMessengerIsNull()
+		{
+			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 1f);
+			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
+			var random = new RandomStub(new List<double>() { 1f });
+			var time = new TimeStub();
+
+			Assert.Throws<ArgumentNullException>(() => new Customer(null, time, random, customerSharedSettings, 1,
+					drinkPreferenceWeights, 1f, 0f));
+		}
+
+		[Test]
+		public void Constructor_ThrowsArgumentNullException_WhenTimeIsNull()
+		{
+			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 1f);
+			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
+			var random = new RandomStub(new List<double>() { 1f });
+			var messenger = new MessengerStub();
+
+			Assert.Throws<ArgumentNullException>(() => new Customer(messenger, null, random, customerSharedSettings, 1,
+					drinkPreferenceWeights, 1f, 0f));
+		}
+		
+		[Test]
 		public void Constructor_ThrowsArgumentNullException_WhenRandomIsNull()
 		{
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
+			var messenger = new MessengerStub();
+			var time = new TimeStub();
 
-			Assert.Throws<ArgumentNullException>(() => new Customer(null, customerSharedSettings, 1,
+			Assert.Throws<ArgumentNullException>(() => new Customer(messenger, time, null, customerSharedSettings, 1,
 					drinkPreferenceWeights, 1f, 0f));
 		}
 
@@ -24,8 +50,10 @@ namespace PubSubPub.Tests.Core.Model
 		{
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
 			var random = new RandomStub(new List<double>() { 1f });
+			var messenger = new MessengerStub();
+			var time = new TimeStub();
 
-			Assert.Throws<ArgumentNullException>(() => new Customer(random, null, 1,
+			Assert.Throws<ArgumentNullException>(() => new Customer(messenger, time, random, null, 1,
 					drinkPreferenceWeights, 1f, 0f));
 		}
 
@@ -35,8 +63,10 @@ namespace PubSubPub.Tests.Core.Model
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
 			var random = new RandomStub(new List<double>() { 1f });
+			var messenger = new MessengerStub();
+			var time = new TimeStub();
 
-			Assert.Throws<ArgumentException>(() => new Customer(random, customerSharedSettings, 1,
+			Assert.Throws<ArgumentException>(() => new Customer(messenger, time, random, customerSharedSettings, 1,
 					drinkPreferenceWeights, 0f, 0f));
 		}
 
@@ -46,8 +76,10 @@ namespace PubSubPub.Tests.Core.Model
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
 			var random = new RandomStub(new List<double>() { 1f });
+			var messenger = new MessengerStub();
+			var time = new TimeStub();
 
-			Assert.Throws<ArgumentException>(() => new Customer(random, customerSharedSettings, 1,
+			Assert.Throws<ArgumentException>(() => new Customer(messenger, time, random, customerSharedSettings, 1,
 					drinkPreferenceWeights, -1f, 0f));
 		}
 
@@ -57,8 +89,10 @@ namespace PubSubPub.Tests.Core.Model
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
 			var random = new RandomStub(new List<double>() { 1f });
+			var messenger = new MessengerStub();
+			var time = new TimeStub();
 
-			Assert.Throws<ArgumentException>(() => new Customer(random, customerSharedSettings, 1,
+			Assert.Throws<ArgumentException>(() => new Customer(messenger, time, random, customerSharedSettings, 1,
 					drinkPreferenceWeights, 1f, -1f));
 		}
 
@@ -68,8 +102,10 @@ namespace PubSubPub.Tests.Core.Model
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
 			var random = new RandomStub(new List<double>() { 1f });
+			var messenger = new MessengerStub();
+			var time = new TimeStub();
 
-			Assert.Throws<ArgumentException>(() => new Customer(random, customerSharedSettings, -1,
+			Assert.Throws<ArgumentException>(() => new Customer(messenger, time, random, customerSharedSettings, -1,
 					drinkPreferenceWeights, 1f, 0f));
 		}
 
@@ -79,8 +115,10 @@ namespace PubSubPub.Tests.Core.Model
 			var customerSharedSettings = new CustomerSharedSettingsStub(0f, 1f, 1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
 			var random = new RandomStub(new List<double>() { 1f });
+			var messenger = new MessengerStub();
+			var time = new TimeStub();
 
-			Assert.Throws<ArgumentException>(() => new Customer(random, customerSharedSettings, 1,
+			Assert.Throws<ArgumentException>(() => new Customer(messenger, time, random, customerSharedSettings, 1,
 					drinkPreferenceWeights, 1f, 0f));
 		}
 
@@ -90,8 +128,10 @@ namespace PubSubPub.Tests.Core.Model
 			var customerSharedSettings = new CustomerSharedSettingsStub(-1f, 1f, 1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
 			var random = new RandomStub(new List<double>() { 1f });
+			var messenger = new MessengerStub();
+			var time = new TimeStub();
 
-			Assert.Throws<ArgumentException>(() => new Customer(random, customerSharedSettings, 1,
+			Assert.Throws<ArgumentException>(() => new Customer(messenger, time, random, customerSharedSettings, 1,
 					drinkPreferenceWeights, 1f, 0f));
 		}
 
@@ -101,8 +141,10 @@ namespace PubSubPub.Tests.Core.Model
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 0f, 1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
 			var random = new RandomStub(new List<double>() { 1f });
+			var messenger = new MessengerStub();
+			var time = new TimeStub();
 
-			Assert.Throws<ArgumentException>(() => new Customer(random, customerSharedSettings, 1,
+			Assert.Throws<ArgumentException>(() => new Customer(messenger, time, random, customerSharedSettings, 1,
 					drinkPreferenceWeights, 1f, 0f));
 		}
 
@@ -112,8 +154,10 @@ namespace PubSubPub.Tests.Core.Model
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, -1f, 1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
 			var random = new RandomStub(new List<double>() { 1f });
+			var messenger = new MessengerStub();
+			var time = new TimeStub();
 
-			Assert.Throws<ArgumentException>(() => new Customer(random, customerSharedSettings, 1,
+			Assert.Throws<ArgumentException>(() => new Customer(messenger, time, random, customerSharedSettings, 1,
 					drinkPreferenceWeights, 1f, 0f));
 		}
 
@@ -123,8 +167,10 @@ namespace PubSubPub.Tests.Core.Model
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1.1f, 1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
 			var random = new RandomStub(new List<double>() { 1f });
+			var messenger = new MessengerStub();
+			var time = new TimeStub();
 
-			Assert.Throws<ArgumentException>(() => new Customer(random, customerSharedSettings, 1,
+			Assert.Throws<ArgumentException>(() => new Customer(messenger, time, random, customerSharedSettings, 1,
 					drinkPreferenceWeights, 1f, 0f));
 		}
 
@@ -134,8 +180,10 @@ namespace PubSubPub.Tests.Core.Model
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 0f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
 			var random = new RandomStub(new List<double>() { 1f });
+			var messenger = new MessengerStub();
+			var time = new TimeStub();
 
-			Assert.Throws<ArgumentException>(() => new Customer(random, customerSharedSettings, 1,
+			Assert.Throws<ArgumentException>(() => new Customer(messenger, time, random, customerSharedSettings, 1,
 					drinkPreferenceWeights, 1f, 0f));
 		}
 
@@ -145,8 +193,10 @@ namespace PubSubPub.Tests.Core.Model
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, -1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
 			var random = new RandomStub(new List<double>() { 1f });
+			var messenger = new MessengerStub();
+			var time = new TimeStub();
 
-			Assert.Throws<ArgumentException>(() => new Customer(random, customerSharedSettings, 1,
+			Assert.Throws<ArgumentException>(() => new Customer(messenger, time, random, customerSharedSettings, 1,
 					drinkPreferenceWeights, 1f, 0f));
 		}
 
@@ -155,8 +205,11 @@ namespace PubSubPub.Tests.Core.Model
 		{
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 1f);
 			var random = new RandomStub(new List<double>() { 1f });
+			var messenger = new MessengerStub();
+			var time = new TimeStub();
 
-			Assert.Throws<ArgumentException>(() => new Customer(random, customerSharedSettings, 1, null, 1f, 0f));
+			Assert.Throws<ArgumentException>(() => new Customer(messenger, time, random, customerSharedSettings, 1,
+					null, 1f, 0f));
 		}
 
 		[Test]
@@ -165,8 +218,10 @@ namespace PubSubPub.Tests.Core.Model
 			var customerSharedSettings = new CustomerSharedSettingsStub(1f, 1f, 1f);
 			var drinkPreferenceWeights = new Dictionary<IDrinkSettings, float>();
 			var random = new RandomStub(new List<double>() { 1f });
+			var messenger = new MessengerStub();
+			var time = new TimeStub();
 
-			Assert.Throws<ArgumentException>(() => new Customer(random, customerSharedSettings, 1,
+			Assert.Throws<ArgumentException>(() => new Customer(messenger, time, random, customerSharedSettings, 1,
 					drinkPreferenceWeights, 1f, 0f));
 		}
 
@@ -186,8 +241,8 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				DeltaTime = 1f
 			};
-			var customer = new Customer(random, customerSharedSettings, 1, drinkPreferenceWeights, 1f, 0f);
-			customer.Initialize(messenger, time);
+			var customer = new Customer(messenger, time, random, customerSharedSettings, 1, drinkPreferenceWeights, 1f,
+					0f);
 			
 			messenger.Publish(new CustomerDrinkSaleInitiatedMessage(customer, drink1Settings));
 			customer.Update();
@@ -209,8 +264,8 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				DeltaTime = 1f
 			};
-			var customer = new Customer(random, customerSharedSettings, 1, drinkPreferenceWeights, 1f, 0f);
-			customer.Initialize(messenger, time);
+			var customer = new Customer(messenger, time, random, customerSharedSettings, 1, drinkPreferenceWeights, 1f,
+					0f);
 
 			customer.Update();
 
@@ -234,8 +289,8 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				DeltaTime = 1f
 			};
-			var customer = new Customer(random, customerSharedSettings, 1, drinkPreferenceWeights, drinkRate, 0f);
-			customer.Initialize(messenger, time);
+			var customer = new Customer(messenger, time, random, customerSharedSettings, 1, drinkPreferenceWeights,
+					drinkRate, 0f);
 
 			messenger.Publish(new CustomerDrinkSaleInitiatedMessage(customer, drink1Settings));
 			customer.Update();
@@ -260,8 +315,8 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				DeltaTime = 1f
 			};
-			var customer = new Customer(random, customerSharedSettings, 1, drinkPreferenceWeights, 1f, 0f);
-			customer.Initialize(messenger, time);
+			var customer = new Customer(messenger, time, random, customerSharedSettings, 1, drinkPreferenceWeights, 1f,
+					0f);
 
 			messenger.Publish(new CustomerDrinkSaleInitiatedMessage(customer, drink1Settings));
 			customer.Update();
@@ -287,8 +342,8 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				DeltaTime = 1f
 			};
-			var customer = new Customer(random, customerSharedSettings, 1, drinkPreferenceWeights, 1f, 0f);
-			customer.Initialize(messenger, time);
+			var customer = new Customer(messenger, time, random, customerSharedSettings, 1, drinkPreferenceWeights, 1f,
+					0f);
 
 			messenger.Publish(new CustomerDrinkSaleInitiatedMessage(customer, drink1Settings));
 			customer.Update();
@@ -312,8 +367,8 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				DeltaTime = 1f
 			};
-			var customer = new Customer(random, customerSharedSettings, drinkCost, drinkPreferenceWeights, 1f, 0f);
-			customer.Initialize(messenger, time);
+			var customer = new Customer(messenger, time, random, customerSharedSettings, drinkCost,
+					drinkPreferenceWeights, 1f, 0f);
 
 			messenger.Publish(new CustomerDrinkSaleInitiatedMessage(customer, drink1Settings));
 			customer.Update();
@@ -339,8 +394,8 @@ namespace PubSubPub.Tests.Core.Model
 				DeltaTime = 1f,
 				Time = delayBetweenDrinks
 			};
-			var customer = new Customer(random, customerSharedSettings, drinkCost, drinkPreferenceWeights, 1f, 0f);
-			customer.Initialize(messenger, time);
+			var customer = new Customer(messenger, time, random, customerSharedSettings, drinkCost,
+					drinkPreferenceWeights, 1f, 0f);
 			var drinkFillAmountChangedMessageSubscriberStub =
 					new DrinkFillAmountChangedMessageSubscriberStub(messenger);
 
@@ -364,8 +419,8 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				DeltaTime = 1f
 			};
-			var customer = new Customer(random, customerSharedSettings, 1, drinkPreferenceWeights, 1f, 0f);
-			customer.Initialize(messenger, time);
+			var customer = new Customer(messenger, time, random, customerSharedSettings, 1, drinkPreferenceWeights, 1f,
+					0f);
 			var drinkFillAmountChangedMessageSubscriberStub = new DrinkFillAmountChangedMessageSubscriberStub(messenger);
 
 			customer.Update();
@@ -390,9 +445,8 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				DeltaTime = 1f
 			};
-			var customer = new Customer(random, customerSharedSettings, drinkCost, drinkPreferenceWeights,
-					drinkRate, 0f);
-			customer.Initialize(messenger, time);
+			var customer = new Customer(messenger, time, random, customerSharedSettings, drinkCost,
+					drinkPreferenceWeights, drinkRate, 0f);
 			var drinkFillAmountChangedMessageSubscriberStub =
 					new DrinkFillAmountChangedMessageSubscriberStub(messenger);
 
@@ -420,9 +474,8 @@ namespace PubSubPub.Tests.Core.Model
 				DeltaTime = 0.5f,
 				Time = 1f
 			};
-			var customer = new Customer(random, customerSharedSettings, drinkCost, drinkPreferenceWeights,
-					drinkRate, 0f);
-			customer.Initialize(messenger, time);
+			var customer = new Customer(messenger, time, random, customerSharedSettings, drinkCost,
+					drinkPreferenceWeights, drinkRate, 0f);
 			var drinkFillAmountChangedMessageSubscriberStub =
 					new DrinkFillAmountChangedMessageSubscriberStub(messenger);
 
@@ -448,8 +501,8 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				DeltaTime = 1f
 			};
-			var customer = new Customer(random, customerSharedSettings, drinkCost, drinkPreferenceWeights, 1f, 0f);
-			customer.Initialize(messenger, time);
+			var customer = new Customer(messenger, time, random, customerSharedSettings, drinkCost,
+					drinkPreferenceWeights, 1f, 0f);
 			var customerNewDrinkRequestedMessageSubscriberStub =
 					new CustomerNewDrinkRequestedMessageSubscriberStub(messenger);
 
@@ -475,9 +528,8 @@ namespace PubSubPub.Tests.Core.Model
 			{
 				DeltaTime = 1f
 			};
-			var customer = new Customer(random, customerSharedSettings, 1, drinkPreferenceWeights, 1f,
+			var customer = new Customer(messenger, time, random, customerSharedSettings, 1, drinkPreferenceWeights, 1f,
 					customerSharedSettings.DrunkennessPassedOutThreshold);
-			customer.Initialize(messenger, time);
 			var customerNewDrinkRequestedMessageSubscriberStub =
 					new CustomerNewDrinkRequestedMessageSubscriberStub(messenger);
 
@@ -501,8 +553,8 @@ namespace PubSubPub.Tests.Core.Model
 				DeltaTime = 1f,
 				Time = 0f
 			};
-			var customer = new Customer(random, customerSharedSettings, 1, drinkPreferenceWeights, 1f, 0f);
-			customer.Initialize(messenger, time);
+			var customer = new Customer(messenger, time, random, customerSharedSettings, 1, drinkPreferenceWeights, 1f,
+					0f);
 			var customerNewDrinkRequestedMessageSubscriberStub =
 					new CustomerNewDrinkRequestedMessageSubscriberStub(messenger);
 
@@ -528,9 +580,8 @@ namespace PubSubPub.Tests.Core.Model
 				DeltaTime = 1f,
 				Time = delayBetweenDrinks
 			};
-			var customer = new Customer(random, customerSharedSettings, drinkCost * 2, drinkPreferenceWeights,
-					1f, 0f);
-			customer.Initialize(messenger, time);
+			var customer = new Customer(messenger, time, random, customerSharedSettings, drinkCost * 2,
+					drinkPreferenceWeights, 1f, 0f);
 			var customerNewDrinkRequestedMessageSubscriberStub =
 					new CustomerNewDrinkRequestedMessageSubscriberStub(messenger);
 
@@ -559,8 +610,8 @@ namespace PubSubPub.Tests.Core.Model
 				DeltaTime = 1f,
 				Time = delayBetweenDrinks
 			};
-			var customer = new Customer(random, customerSharedSettings, drinkCost, drinkPreferenceWeights, 1f, 0f);
-			customer.Initialize(messenger, time);
+			var customer = new Customer(messenger, time, random, customerSharedSettings, drinkCost,
+					drinkPreferenceWeights, 1f, 0f);
 			var customerNewDrinkRequestedMessageSubscriberStub =
 					new CustomerNewDrinkRequestedMessageSubscriberStub(messenger);
 
@@ -594,9 +645,8 @@ namespace PubSubPub.Tests.Core.Model
 					DeltaTime = 1f,
 					Time = delayBetweenDrinks
 				};
-				var customer = new Customer(random, customerSharedSettings, drinkCost, drinkPreferenceWeights,
-						1f, 0f);
-				customer.Initialize(messenger, time);
+				var customer = new Customer(messenger, time, random, customerSharedSettings, drinkCost,
+						drinkPreferenceWeights, 1f, 0f);
 				var customerNewDrinkRequestedMessageSubscriberStub =
 						new CustomerNewDrinkRequestedMessageSubscriberStub(messenger);
 
@@ -634,9 +684,8 @@ namespace PubSubPub.Tests.Core.Model
 					DeltaTime = 1f,
 					Time = delayBetweenDrinks
 				};
-				var customer = new Customer(random, customerSharedSettings, drinkCost, drinkPreferenceWeights,
-						1f, 0f);
-				customer.Initialize(messenger, time);
+				var customer = new Customer(messenger, time, random, customerSharedSettings, drinkCost,
+						drinkPreferenceWeights, 1f, 0f);
 				var customerNewDrinkRequestedMessageSubscriberStub =
 						new CustomerNewDrinkRequestedMessageSubscriberStub(messenger);
 
@@ -667,8 +716,8 @@ namespace PubSubPub.Tests.Core.Model
 				DeltaTime = 1f,
 				Time = delayBetweenDrinks
 			};
-			var customer = new Customer(random, customerSharedSettings, drinkCost, drinkPreferenceWeights, 1f, 0f);
-			customer.Initialize(messenger, time);
+			var customer = new Customer(messenger, time, random, customerSharedSettings, drinkCost,
+					drinkPreferenceWeights, 1f, 0f);
 			var customerNewDrinkRequestedMessageSubscriberStub =
 					new CustomerNewDrinkRequestedMessageSubscriberStub(messenger);
 			var customerDrinkSaleInitiatedMessagePublisherStub = new MessagePublisherStub(messenger);
@@ -701,9 +750,8 @@ namespace PubSubPub.Tests.Core.Model
 				DeltaTime = 1f,
 				Time = delayBetweenDrinks
 			};
-			var customer = new Customer(random, customerSharedSettings, drinkCost, drinkPreferenceWeights,
-					1f, 0f);
-			customer.Initialize(messenger, time);
+			var customer = new Customer(messenger, time, random, customerSharedSettings, drinkCost,
+					drinkPreferenceWeights, 1f, 0f);
 			var customerDrinkSaleInitiatedMessagePublisherStub = new MessagePublisherStub(messenger);
 			var customerDrinkSoldMessageSubscriberStub = new CustomerDrinkSoldMessageSubscriberStub(messenger);
 
@@ -731,9 +779,8 @@ namespace PubSubPub.Tests.Core.Model
 				DeltaTime = 1f,
 				Time = delayBetweenDrinks
 			};
-			var customer = new Customer(random, customerSharedSettings, drinkCost * 2, drinkPreferenceWeights,
-					1f, 0f);
-			customer.Initialize(messenger, time);
+			var customer = new Customer(messenger, time, random, customerSharedSettings, drinkCost * 2,
+					drinkPreferenceWeights, 1f, 0f);
 			var customerDrinkSaleInitiatedMessagePublisherStub = new MessagePublisherStub(messenger);
 			var customerDrinkSoldMessageSubscriberStub = new CustomerDrinkSoldMessageSubscriberStub(messenger);
 
@@ -764,9 +811,8 @@ namespace PubSubPub.Tests.Core.Model
 				DeltaTime = 1f,
 				Time = delayBetweenDrinks
 			};
-			var customer = new Customer(random, customerSharedSettings, drinkCost / 2, drinkPreferenceWeights,
-					1f, 0f);
-			customer.Initialize(messenger, time);
+			var customer = new Customer(messenger, time, random, customerSharedSettings, drinkCost / 2,
+					drinkPreferenceWeights, 1f, 0f);
 			var customerDrinkSaleInitiatedMessagePublisherStub = new MessagePublisherStub(messenger);
 			var customerDrinkSoldMessageSubscriberStub = new CustomerDrinkSoldMessageSubscriberStub(messenger);
 
