@@ -671,8 +671,7 @@ namespace PubSubPub.Tests.Core.Model
 			customer.Initialize(messenger, time);
 			var customerNewDrinkRequestedMessageSubscriberStub =
 					new CustomerNewDrinkRequestedMessageSubscriberStub(messenger);
-			var customerDrinkSaleInitiatedMessagePublisherStub =
-					new CustomerDrinkSaleInitiatedMessagePublisherStub(messenger);
+			var customerDrinkSaleInitiatedMessagePublisherStub = new MessagePublisherStub(messenger);
 
 			customerDrinkSaleInitiatedMessagePublisherStub.Publish(
 					new CustomerDrinkSaleInitiatedMessage(customer, drinkSettings));
@@ -705,8 +704,7 @@ namespace PubSubPub.Tests.Core.Model
 			var customer = new Customer(random, customerSharedSettings, drinkCost, drinkPreferenceWeights,
 					1f, 0f);
 			customer.Initialize(messenger, time);
-			var customerDrinkSaleInitiatedMessagePublisherStub =
-					new CustomerDrinkSaleInitiatedMessagePublisherStub(messenger);
+			var customerDrinkSaleInitiatedMessagePublisherStub = new MessagePublisherStub(messenger);
 			var customerDrinkSoldMessageSubscriberStub = new CustomerDrinkSoldMessageSubscriberStub(messenger);
 
 			customerDrinkSaleInitiatedMessagePublisherStub.Publish(new CustomerDrinkSaleInitiatedMessage(customer,
@@ -736,8 +734,7 @@ namespace PubSubPub.Tests.Core.Model
 			var customer = new Customer(random, customerSharedSettings, drinkCost * 2, drinkPreferenceWeights,
 					1f, 0f);
 			customer.Initialize(messenger, time);
-			var customerDrinkSaleInitiatedMessagePublisherStub =
-					new CustomerDrinkSaleInitiatedMessagePublisherStub(messenger);
+			var customerDrinkSaleInitiatedMessagePublisherStub = new MessagePublisherStub(messenger);
 			var customerDrinkSoldMessageSubscriberStub = new CustomerDrinkSoldMessageSubscriberStub(messenger);
 
 			customerDrinkSaleInitiatedMessagePublisherStub.Publish(
@@ -770,8 +767,7 @@ namespace PubSubPub.Tests.Core.Model
 			var customer = new Customer(random, customerSharedSettings, drinkCost / 2, drinkPreferenceWeights,
 					1f, 0f);
 			customer.Initialize(messenger, time);
-			var customerDrinkSaleInitiatedMessagePublisherStub =
-					new CustomerDrinkSaleInitiatedMessagePublisherStub(messenger);
+			var customerDrinkSaleInitiatedMessagePublisherStub = new MessagePublisherStub(messenger);
 			var customerDrinkSoldMessageSubscriberStub = new CustomerDrinkSoldMessageSubscriberStub(messenger);
 
 			customerDrinkSaleInitiatedMessagePublisherStub.Publish(
